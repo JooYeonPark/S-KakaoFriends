@@ -43,6 +43,8 @@
 							</div>
 							<a class="button style-12" href="/member/regist">
 								Register Account</a>
+							<a class="button style-12" href="/member/testLogin">
+								Tester Login</a>
 						</div>
 					</div>
 				</div>

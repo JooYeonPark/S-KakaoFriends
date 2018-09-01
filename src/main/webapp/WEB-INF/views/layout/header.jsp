@@ -31,6 +31,11 @@
 <script src="/resources/js/jquery.mousewheel.js"></script>
 <script src="/resources/js/jquery.jscrollpane.min.js"></script>
 
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
+
 <title>Kakao Friends Shop</title>
 
 </head>
@@ -66,7 +71,8 @@
 							<c:otherwise>
 								<div class="header-top-entry">
 									<div class="title">
-										<a class="fa fa-list" href=""> <span>Order List</span> </a> 
+										<a class="fa fa-user" href="/member/logout"><span>LogOut</span> </a>
+										<a class="fa fa-list" href="/orders/list"> <span>Order List</span> </a> 
 									</div>
 								</div>
 							</c:otherwise>
@@ -85,7 +91,7 @@
 				<div class="nav-overflow">
 					<nav>
 						<ul>
-							<li class="full-width"><a href="#" class="active">인형/피규어</a><i
+							<li class="full-width"><a href="/products/list?page=0" class="active">인형/피규어</a><i
 								class="fa fa-chevron-down"></i></li>
 						</ul>
 					</nav>

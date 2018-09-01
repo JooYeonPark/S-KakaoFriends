@@ -1,7 +1,7 @@
 package com.kakaoix.mall.member;
 
+import java.io.IOException;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +13,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.JsonMappingException;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -53,14 +57,13 @@ public class MemberController {
 	
 	/** 로그인 화면 */
 	@GetMapping("/login")
-	public String loginView() {
+	public String loginView(Model model) {
 		return "member/login";
 	}
 	
-	/** 로그인 실행 */
+	/** 로그인 실행  */
 	@PostMapping("/login")
-	public String login(HttpServletRequest request, RedirectAttributes ra, Member member) {
-		HttpSession session = request.getSession();
+	public String login(HttpSession session, RedirectAttributes ra, Member member) throws JsonParseException, JsonMappingException, IOException {
 		Member mem = memberService.isMember(member);
 		
 		if(mem == null) {
@@ -70,7 +73,25 @@ public class MemberController {
 		
 		//아이디와 비밀번호가 존재할 때, 로그인 처리
 		ra.addFlashAttribute("msg", "SUCCESS");
+		session.setAttribute("memberNo", mem.getMemberNo()); //세션에 member no값  넣기
+		log.info("memberNo:{}",mem.getMemberNo());
+		
+		return "redirect:/";
+	}
+	
+	/** 손쉬운 테스트를 위한 로그인 처리  - jy로그인*/
+	@GetMapping("/testLogin")
+	public String testLogin(HttpSession session) {
+		Member member = memberService.selectById("jy");
 		session.setAttribute("memberNo", member.getMemberNo()); //세션에 member no값  넣기
+		
+		return "redirect:/";
+	}
+	
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.removeAttribute("memberNo");
+		
 		return "redirect:/";
 	}
 	

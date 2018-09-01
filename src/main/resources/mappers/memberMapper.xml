@@ -57,6 +57,11 @@
 			FROM	MEMBER	
 		</select>
 	
+		<select id="selectByMemberNo" resultType="Member">
+			<include refid="selectMemberAll"/>
+			FROM	MEMBER
+			WHERE	member_no = #{memberNo}
+		</select>
 	</mapper>
 	
 	

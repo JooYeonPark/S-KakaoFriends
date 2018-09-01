@@ -7,6 +7,7 @@
 <head>
 
 <%-- 다음 주소 API --%>
+<script src="/resources/js/daumMap.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 
 <title>Kakao Friends Shop</title>
@@ -88,7 +89,7 @@
 											<input class="simple-field" type="text" id="postcode" name="postcode" disabled>
 										</div>
 										<div class="col-sm-2 form-group">
-											<input type="button" onclick="daumPostcode()" value="우편번호 찾기" class="button style-10"><br>
+											<input type="button" onclick="javascript:daumPostcode()" value="우편번호 찾기" class="button style-10"><br>
 										</div>
 									</div> <%-- /.row --%>
 									
@@ -200,47 +201,6 @@
 
 			$("#pw-rules-span").html("");
 			return true;
-		}
-		
-		//주소 검색
-		function daumPostcode() {
-			new daum.Postcode(
-					{
-						oncomplete : function(data) {
-							var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
-							var extraRoadAddr = ''; // 도로명 조합형 주소 변수
-
-							// 법정동명이 있을 경우 추가 (법정리는 제외)
-							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝남
-							if (data.bname !== ''
-									&& /[동|로|가]$/g.test(data.bname)) {
-								extraRoadAddr += data.bname;
-							}
-							// 건물명이 있고, 공동주택일 경우 추가
-							if (data.buildingName !== ''
-									&& data.apartment === 'Y') {
-								extraRoadAddr += (extraRoadAddr !== '' ? ', '
-										+ data.buildingName : data.buildingName);
-							}
-							// 도로명, 지번 조합형 주소가 있을 경우, 괄호까지 추가한 최종 문자열을 만듬
-							if (extraRoadAddr !== '') {
-								extraRoadAddr = ' (' + extraRoadAddr + ')';
-							}
-							// 도로명, 지번 주소의 유무에 따라 해당 조합형 주소를 추가
-							if (fullRoadAddr !== '') {
-								fullRoadAddr += extraRoadAddr;
-							}
-
-							// 우편번호와 주소 정보를 해당 필드에 넣음
-							document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
-							document.getElementById('address').value = fullRoadAddr;
-							document.getElementById('address').removeAttribute(
-									'disabled');
-							document.getElementById('postcode')
-									.removeAttribute('disabled');
-							document.getElementById('guide').innerHTML = '(상세주소를 추가 입력해주세요. 예 : 101동 101호)';
-						}
-					}).open();
 		}
 		
 		//submit 전에 아이디,비밀번호 유효성 검사 실행

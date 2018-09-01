@@ -27,5 +27,9 @@ public class MemberService {
 	public Member selectById(String id) {
 		return memberMapper.selectById(id);
 	}
+	
+	public Member selectByMemberNo(long memberNo) {
+		return memberMapper.selectByMemberNo(memberNo);
+	}
 
 }

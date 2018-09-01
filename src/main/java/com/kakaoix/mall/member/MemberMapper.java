@@ -13,5 +13,7 @@ public interface MemberMapper {
 	public Member isMember(Member member);
 	
 	public Member selectById(String id);
+
+	public Member selectByMemberNo(long memberNo);
 	
 }

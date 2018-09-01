@@ -40,4 +40,10 @@ public class MemberTest {
 		Member mem = memberMapper.selectById("jy");
 		log.info("{}", mem);
 	}
+	
+	@Test
+	public void selectByMemberNo() {
+		Member mem = memberMapper.selectByMemberNo(1);
+		log.info("{}", mem);
+	}
 }

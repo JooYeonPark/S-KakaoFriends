@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.kakaoix.mall.products.ProductMapper">
+		<sql id="selectAll">
+			SELECT	product_no
+							, name
+							, price
+							, description
+							, main_image
+		</sql>
+		
+		<select id="selectByPage" resultType="Product">
+			<include refid="selectAll"/>
+			FROM PRODUCT
+			LIMIT #{page}, 10
+		</select>
+		
+		<!-- 1:N 관계인 Product와 Image를 매핑하기 위한 resultMap -->
+		<resultMap id="ProductImgagesResult" type="Product">
+			<id property="productNo" column="product_no"/>
+			<result property="name" column="name"/>
+			<result property="price" column="price"/>
+			<result property="name" column="name"/>
+			<result property="description" column="description"/>
+			<result property="mainImage" column="main_image"/>
+			
+			<collection property="images" column="product_no" 
+				ofType="Image" select="selectImageByProductNo"/>
+		</resultMap>
+		
+		<select id="selectByProductNo" resultMap="ProductImgagesResult">
+			<include refid="selectAll"/>
+			FROM	PRODUCT
+			WHERE	PRODUCT.product_no = #{productNo}
+		</select>
+		
+		<select id="selectImageByProductNo" resultType="Image">
+			SELECT	image_no
+							, product_no
+							, path
+			FROM IMAGE
+			WHERE product_no = #{productNo}
+		</select>
+
+		
+		
+	
+	</mapper>

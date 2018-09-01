@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+	<mapper namespace="com.kakaoix.mall.orders.OrdersMapper">
+	
+		<insert id="insert" useGeneratedKeys="true" keyProperty="ordersNo">
+			INSERT INTO ORDERS
+			(
+				member_no
+				, product_no
+				, total_price
+				, qty
+				, address
+				, postcode
+				, receiver
+				, phone
+				, message
+				, deliver_status
+			)
+			VALUES
+			(
+				#{memberNo}
+				, #{productNo}
+				, #{totalPrice}
+				, #{qty}
+				, #{address}
+				, #{postcode}
+				, #{receiver}
+				, #{phone}
+				, #{message}
+				, #{deliverStatus}
+			)
+		</insert>
+		
+		<resultMap id="ordersProduct" type="Orders">
+			<id property="ordersNo" column="orders_no"/>
+			<result property="memberNo" column="member_no"/>
+			<result property="productNo" column="product_no"/>
+			<result property="date" column="date"/>
+			<result property="totalPrice" column="total_price"/>
+			<result property="qty" column="qty"/>
+			<result property="address" column="address"/>
+			<result property="postcode" column="postcode"/>
+			<result property="receiver" column="receiver"/>
+			<result property="phone" column="phone"/>
+			<result property="message" column="message"/>
+			<result property="deliverStatus" column="deliver_status"/>
+			<result property="payment" column="payment"/>
+			
+			<association property="product" javaType="Product">
+				<id property="productNo" column="product_no"/>
+				<result property="name" column="name"/>
+				<result property="price" column="price"/>
+				<result property="mainImage" column="main_image"/>
+			</association>
+		</resultMap>
+		
+		<select id="selectByDate" resultMap="ordersProduct">
+			SELECT	orders_no
+							, member_no
+							, ORDERS.product_no
+							, date
+							, total_price
+							, qty
+							, address
+							, postcode
+							, receiver
+							, phone
+							, message
+							, deliver_status
+							, payment
+							, PRODUCT.name
+							, PRODUCT.price
+							, PRODUCT.main_image
+			FROM	ORDERS
+						INNER JOIN PRODUCT ON ORDERS.product_no = PRODUCT.product_no 
+			WHERE	member_no = #{memberNo} AND
+						DATE(date) BETWEEN #{start} AND #{end}
+							
+		</select>
+		
+	</mapper>

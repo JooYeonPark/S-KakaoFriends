@@ -180,7 +180,7 @@
 						<div class="enterContent-1"></div>
 
 						<%-- 결제 정보 --%>
-						<div class="accordeon-title">
+						<div class="accordeon-title active">
 							<h3 class="block-title order-main-heading">결제 정보</h3>
 						</div>
 						<div class="accordeon-entry">

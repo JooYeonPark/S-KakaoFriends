@@ -80,7 +80,7 @@ public class OrdersController {
 	
 	@GetMapping("/orders/result")
 	public String orderResultView() {
-		return "redirect:/orders/result";
+		return "orders/result";
 	}
 	
 	@GetMapping("/orders/list")

@@ -8,8 +8,8 @@ function daumPostcode() {
 			// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
 
 			// 도로명 주소의 노출 규칙에 따라 주소를 조합한다.
-			// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를
-			// 참고하여 분기 한다.
+			// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+			
 			var fullRoadAddr = data.roadAddress; // 도로명
 			var extraRoadAddr = ''; // 도로명 조합형 주소 변수
 
@@ -34,16 +34,12 @@ function daumPostcode() {
 			}
 
 			// 우편번호와 주소 정보를 해당 필드에 넣는다.
-			document.getElementById('receiverPost').value = data.zonecode; // 5자리
-			// 새우편번호
-			// 사용
-			document.getElementById('receiverAddress1').value = fullRoadAddr;
-			/*
-			 * document.getElementById('addressDetail').removeAttribute('disabled');
-			 * 
-			 * document.getElementById('guide').innerHTML =
-			 * '(상세주소 예 : 101동 101호)';
-			 */
+			document.getElementById('postcode').value = data.zonecode; //5자리 새우편번호 사용
+			document.getElementById('address').value = fullRoadAddr;
+			document.getElementById('address').removeAttribute('disabled');
+			document.getElementById('postcode').removeAttribute('disabled');
+			document.getElementById('guide').innerHTML = '(상세주소를 추가 입력해주세요. 예 : 101동 101호)';
+
 
 		}
 	}).open();

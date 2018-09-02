@@ -17,7 +17,7 @@
 				, receiver
 				, phone
 				, message
-				, deliver_status
+				, payment
 			)
 			VALUES
 			(
@@ -30,10 +30,11 @@
 				, #{receiver}
 				, #{phone}
 				, #{message}
-				, #{deliverStatus}
+				, #{payment}
 			)
 		</insert>
 		
+		<!-- Orders에 Product정보들을 담기 위한 resultMap -->
 		<resultMap id="ordersProduct" type="Orders">
 			<id property="ordersNo" column="orders_no"/>
 			<result property="memberNo" column="member_no"/>
@@ -57,7 +58,7 @@
 			</association>
 		</resultMap>
 		
-		<select id="selectByDate" resultMap="ordersProduct">
+		<sql id="selectOrdersProduct">
 			SELECT	orders_no
 							, member_no
 							, ORDERS.product_no
@@ -74,11 +75,23 @@
 							, PRODUCT.name
 							, PRODUCT.price
 							, PRODUCT.main_image
+		</sql>
+		
+		<select id="selectByDate" resultMap="ordersProduct">
+			<include refid="selectOrdersProduct"/>
 			FROM	ORDERS
 						INNER JOIN PRODUCT ON ORDERS.product_no = PRODUCT.product_no 
 			WHERE	member_no = #{memberNo} AND
 						DATE(date) BETWEEN #{start} AND #{end}
+			ORDER BY date DESC
 							
+		</select>
+		
+		<select id="selectByOrdersNo" resultMap="ordersProduct">
+			<include refid="selectOrdersProduct"/>
+			FROM	ORDERS
+						INNER JOIN PRODUCT ON ORDERS.product_no = PRODUCT.product_no 
+			WHERE	orders_no = #{ordersNo}
 		</select>
 		
 	</mapper>

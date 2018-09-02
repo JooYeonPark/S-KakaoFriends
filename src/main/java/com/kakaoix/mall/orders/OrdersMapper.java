@@ -13,4 +13,6 @@ public interface OrdersMapper {
 
 	public List<Orders> selectByDate(OrdersDate ordersDate);
 
+	public Orders selectByOrdersNo(long ordersNo);
+
 }

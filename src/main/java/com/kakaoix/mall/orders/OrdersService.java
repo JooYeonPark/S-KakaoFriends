@@ -18,5 +18,9 @@ public class OrdersService {
 	public List<Orders> selectByDate(OrdersDate ordersDate){
 		return ordersMapper.selectByDate(ordersDate);
 	}
+
+	public Orders selectByOrdersNo(long ordersNo) {
+		return ordersMapper.selectByOrdersNo(ordersNo);
+	}
 	
 }

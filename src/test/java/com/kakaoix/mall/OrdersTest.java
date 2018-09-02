@@ -50,6 +50,10 @@ public class OrdersTest {
 		}
 	}
 	
-	
+	@Test
+	public void selectByOrdersNo() {
+		Orders order = ordersService.selectByOrdersNo((long)6);
+		log.info("{}",order);
+	}
 	
 }

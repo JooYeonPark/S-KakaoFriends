@@ -12,6 +12,7 @@ public class MemberService {
 	
 	public void insert(Member member) {
 		try {
+			//SHA256 단방향 암호화
 			member.setPassword(SHA256Util.hashing(member.getPassword()));
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -21,6 +22,12 @@ public class MemberService {
 	}
 	
 	public Member isMember(Member member){
+		try {
+			//SHA256 단방향 암호화
+			member.setPassword(SHA256Util.hashing(member.getPassword()));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return memberMapper.isMember(member);
 	}
 	

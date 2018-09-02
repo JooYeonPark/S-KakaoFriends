@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 @Mapper
 public interface ProductMapper {
 
-	/** 페이지별로 리스트 반환 */
 	public List<Product> selectByPage(int page);
 
 	public Product selectByProductNo(long productNo);

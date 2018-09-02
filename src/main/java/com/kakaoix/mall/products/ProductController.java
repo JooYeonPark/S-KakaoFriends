@@ -7,13 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
-@Slf4j
-
 public class ProductController {
 	
 	@Autowired
@@ -31,17 +27,17 @@ public class ProductController {
 		return "products/product";
 	}
 	
-	
 	@GetMapping("/products/list")
-	public String list(int page, Model model) {
-		List<Product> lists = productService.selectByPage(page);
+	public String list() {
+		return "products/list";
+	}
+	
+	@GetMapping("/products/list/{page}")
+	public String productList(@PathVariable("page") int page, Model model) {
+		List<Product> lists = productService.selectByPage(page*8);
 		model.addAttribute("list", lists);
 		model.addAttribute("dir", uploadDir);
 		
-		log.info("ProductController list");
-		for (Product product : lists) {
-			log.info("{}", product);
-		}
-		return "products/list";
+		return "products/listComponent";
 	}
 }

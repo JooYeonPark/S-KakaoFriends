@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>order result</title>
+<title>order result</title>
 </head>
 <body class="style-10">
 	<div id="content-block">
@@ -28,33 +28,28 @@
 									<p>연락처 : &nbsp;${order.phone}</p>
 									<p>주소 : &nbsp; ${order.address}</p>
 									<p> 주문 가격 : &nbsp;
-										<fmt:formatNumber value="${order.totalPrice}" groupingUsed="true" />
-										원
+										￦<fmt:formatNumber value="${order.totalPrice}" groupingUsed="true" />
 									</p>
 									<p>배송 메세지 : &nbsp;${order.message}</p>
 
 									<div class="enterContent-1"></div>
 								</div>
-								<a href="" class="button style-14">주문내역 보러가기</a> 
-								<a href="" class="button style-14">메인페이지</a>
+								<a href="/orders/listdetail?ordersNo=${order.ordersNo}" class="button style-14">주문내역 보러가기</a> 
+								<a href="/" class="button style-14">메인페이지</a>
 							</div>
 						</div>
 						<div class="col-sm-3 information-entry"></div>
-					</div>
-					<%-- ./row --%>
+					</div><%-- ./row --%>
 					<br>
 
-				</div>
-				<%-- ./information-blocks --%>
+				</div><%-- ./information-blocks --%>
+				
 				<%-- FOOTER --%>
 				<jsp:include page="/WEB-INF/views/layout/footer.jsp"></jsp:include>
 
-			</div>
-			<%-- /.content-push --%>
-		</div>
-		<%-- /. content-center --%>
-	</div>
-	<%-- /. content-block --%>
+			</div><%-- /.content-push --%>
+		</div><%-- /. content-center --%>
+	</div><%-- /. content-block --%>
 
 </body>
 </html>

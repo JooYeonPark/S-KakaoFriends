@@ -7,9 +7,12 @@
 <head>
 <script src="/resources/js/daumMap.js"></script>
 <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.3/js.cookie.js"
-	type="text/javascript"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.0.3/js.cookie.js" type="text/javascript"></script>
+
+<title>Order</title>
+
 </head>
+
 <body class="style-10">
 
 	<div class="content-center fixed-header-margin">
@@ -17,13 +20,16 @@
 		<jsp:include page="/WEB-INF/views/layout/header.jsp"></jsp:include>
 
 		<div class="clear"></div>
+		
 		<div class="content-push">
 
-			<form id="orderForm" action="/orders/process" method="POST">
+			<form id="orderForm" action="/orders/result" method="POST">
 				<input type="hidden" name="productNo" value="${product.productNo}"> 
 				
 				<div class="content-push">
 					<div class="information-blocks">
+					
+						<%-- 상품 정보 --%>
 						<div class="row">
 							<div class="col-sm-9 information-entry">
 								<h3 class="cart-column-title size-1">Products</h3>
@@ -46,22 +52,38 @@
 													</div>
 
 													<input type="hidden" name="qty" value="${quantity}">
-													<input type="hidden" name="totalPrice" value="${product.price}"> 
+													<input type="hidden" name="price" value="${product.price}"> 
 
 												</div>
 											</div>
 										</div>
 									</div>
 							</div>
-						</div>
-					</div>
-				</div>
+							<div class="col-sm-3 information-entry totalOrder">
+			          <h3 class="cart-column-title size-1"
+			            style="text-align: center;">Subtotal</h3>
+			          <div class="sidebar-subtotal">
+			            <div class="price-data">
+			            	<input type="hidden" name="totalPrice" value="${product.price*quantity}">
+			              <div class="main totalPrice" id="totalPrice">
+			              	￦
+											<fmt:formatNumber value="${product.price*quantity}" groupingUsed="true" />
+										</div>
+			            </div>
+			          </div>
+			        </div>
+							
+						</div><%-- /.row --%>
+					</div><%--/.information-blocks --%>
+				</div><%--/.content-push --%>
 
 				<div class="clear"></div>
 				<div class="enterContent-4"></div>
 
 				<div class="orderinfomation-blocks">
 					<div class="accordeon">
+						
+						<%-- 주문자 정보 --%>
 						<div class="accordeon-title active">
 							<h3 class="block-title order-main-heading">주문자 정보</h3>
 						</div>
@@ -82,7 +104,7 @@
 								</div>
 								<div class="row">
 									<div class="col-sm-3 form-group">
-										<label>주소 <span>*</span></label> 
+										<label>주소</label> 
 										<input class="simple-field" type="text" id="orderPost" value="${member.postcode}"
 											readonly="readonly" />
 									</div>
@@ -101,10 +123,11 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div><%-- /. accordeon-entry --%>
 
 						<div class="enterContent-1"></div>
-
+						
+						<%-- 배송지 정보 --%>
 						<div class="accordeon-title active">
 							<h3 class="block-title order-main-heading">배송지 정보</h3>
 						</div>
@@ -126,7 +149,7 @@
 								<div class="row">
 									<div class="col-sm-3 form-group">
 										<label>주소 <span>*</span></label> 
-										<input class="simple-field" type="text" id="receiverPost" value="" name="postcode"
+										<input class="simple-field" type="text" id="postcode" value="" name="postcode"
 											placeholder="우편번호" />
 									</div>
 									<div class="col-sm-4 form-group">
@@ -135,27 +158,28 @@
 									</div>
 									<div class="clear"></div>
 									<div class="col-sm-5 form-group">
-										<input class="simple-field" type="text" id="receiverAddress1"
+										<input class="simple-field" type="text" id="address"
 											required value="" placeholder="기본주소" />
 									</div>
 									<div class="col-sm-5 form-group">
 										<input class="simple-field" type="text" id="receiverAddress2"
 											required value="" placeholder="상세주소" />
+										<span id="guide" style="color: #999" class="red-span"></span>
 									</div>
 								</div>
 								<div class="row">
 									<div class="col-sm-10 form-group">
 										<label>배송 메세지 <span>*</span></label>
-										<textarea class="simple-field" required name="message"></textarea>
+										<textarea class="simple-field" id="messageTA" required name="message">늘 감사합니다^^</textarea>
 									</div>
 								</div>
 							</div>
-						</div>
+						</div><%-- /. accordeon-entry --%>
 
 						<div class="clear"></div>
-
 						<div class="enterContent-1"></div>
 
+						<%-- 결제 정보 --%>
 						<div class="accordeon-title">
 							<h3 class="block-title order-main-heading">결제 정보</h3>
 						</div>
@@ -164,7 +188,7 @@
 								<div class="row">
 									<div class="col-sm-2 form-group">
 										<label class="checkbox-entry radio"> 
-										<input type="radio" name="payment" value="card"> 
+										<input type="radio" name="payment" value="card" checked="checked"> 
 										<span class="check"></span> 신용카드
 										</label>
 									</div>
@@ -194,7 +218,7 @@
 									</div>
 								</div>
 							</div>
-						</div>
+						</div><%-- /. accordeon-entry --%>
 
 						<div class='col-sm-10 cardChoice'></div>
 						<div class="cardInfo"></div>
@@ -209,8 +233,8 @@
 
 				</div>
 			</form>
+			
 			<div class="enterContent-2"></div>
-
 			<div class="clear"></div>
 
 			<%-- FOOTER --%>
@@ -225,41 +249,34 @@
 
 	<script>
 	
-	/** 주문정보 = 배송정보 */
 	$("#orderInfoCk").change(function() {
-		var orderName = $("#orderName").val()
-		var orderPhone = $("#orderPhone").val()
-		var orderPost = $("#orderPost").val()
-		var orderAddress = $("#orderAddress").val()
-		var empty = "";
-		
+		//체크박스 클릭시 주문정보=배송정보
 		if ($("#orderInfoCk").is(":checked")) {
-			$("#receiverName").val(orderName)
-			$("#receiverPhone").val(orderPhone)
-			$("#receiverPost").val(orderPost)
-			$("#receiverAddress1").val(orderAddress)
+			$("#receiverName").val($("#orderName").val())
+			$("#receiverPhone").val( $("#orderPhone").val())
+			$("#postcode").val($("#orderPost").val())
+			$("#address").val($("#orderAddress").val())
 		} else {
 			$("#receiverName").val("");
 			$("#receiverPhone").val("");
-			$("#receiverPost").val("");
-			$("#receiverAddress1").val("");
+			$("#postcode").val("");
+			$("#address").val("");
 		}
 	});
 	
-	/** 가격 데이터 포맷 */
-	function numberfmt(value) {
-		return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-	}
 
 	$("#orderForm").submit(function(event) {
 		event.preventDefault();
 
-		/** 기본주소+상세주소 */
-		var address = $("#receiverAddress1").val() + " " + $("#receiverAddress2").val();
+		// 기본주소+상세주소 
+		var address = $("#address").val() + " " + $("#receiverAddress2").val();
 
 		var submitStr = "";
 		submitStr += "<input type='hidden' name='address' value='" + address + "'>";
-
+		
+		//textArea 이스케이프 문자 처리
+		$("#messageTA").text($("#messageTA").val());
+		
 		$(this).append(submitStr);
 		$(this).get(0).submit();
 	})

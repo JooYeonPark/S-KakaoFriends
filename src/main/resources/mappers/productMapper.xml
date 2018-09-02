@@ -15,7 +15,7 @@
 		<select id="selectByPage" resultType="Product">
 			<include refid="selectAll"/>
 			FROM PRODUCT
-			LIMIT #{page}, 10
+			LIMIT #{page}, 8
 		</select>
 		
 		<!-- 1:N 관계인 Product와 Image를 매핑하기 위한 resultMap -->

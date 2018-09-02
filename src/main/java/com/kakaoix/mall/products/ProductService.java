@@ -11,7 +11,6 @@ public class ProductService {
 	@Autowired
 	ProductMapper productMapper;
 	
-	/** 페이지별로 리스트 반환 */
 	public List<Product> selectByPage(int page){
 		return productMapper.selectByPage(page);
 	}

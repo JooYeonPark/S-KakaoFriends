@@ -4,9 +4,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,19 +11,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttribute;
 
-import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.kakaoix.mall.member.Member;
 import com.kakaoix.mall.member.MemberService;
 import com.kakaoix.mall.products.Product;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Controller
-@Slf4j
 public class OrdersController {
 	
 	@Autowired
@@ -39,18 +30,11 @@ public class OrdersController {
 	@Value("${file.upload.directory}")
 	String uploadDir;
 	
-	/** 주문정보, 사용자 정보를 가져와 order 화면으로 넘겨주는 역할 */
+	/** 주문정보, 사용자 정보를 가져와  주문화면으로 넘김 */
 	@PostMapping("/orders")
-	public String order(@RequestParam int quantity, @RequestParam long productNo,  @RequestParam String name,  @RequestParam int price,
-			 @RequestParam String mainImage, Model model, HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException {
-		
-		HttpSession session = request.getSession();
-		Object memberNo = session.getAttribute("memberNo");
-		
-		//로그인 하지 않은 경우 로그인 처리
-		if(memberNo == null) {
-			return "redirect:/member/login";
-		}
+	public String order(int quantity, long productNo, String name, String mainImage, 
+			Model model, @SessionAttribute long memberNo, int price, int total) 
+					throws IOException {
 		
 		Member mem = memberService.selectByMemberNo((long)memberNo);
 		model.addAttribute("member",mem);
@@ -58,20 +42,35 @@ public class OrdersController {
 		model.addAttribute("product", new Product(productNo, name, price, mainImage));
 		model.addAttribute("quantity",quantity);
 		model.addAttribute("dir",uploadDir);
+		model.addAttribute("total", total);
 		
 		return "orders/order";
 	}
 	
-	/** 주문을 완료 */
-	@PostMapping("/orders/process")
+	
+	@GetMapping("/orders/{start}/{end}")
+	public String listByDate(@PathVariable("start") String start, @PathVariable("end") String end, 
+			@SessionAttribute long memberNo, Model model) {
+		
+		//정확한 날짜 검색을 위해 시간을 붙임
+		end += " 23:59:59";
+		
+		OrdersDate ordersDate = new OrdersDate(memberNo, start, end);
+		List<Orders> list = ordersService.selectByDate(ordersDate);
+		
+		model.addAttribute("list",list);
+		model.addAttribute("dir", uploadDir);
+		
+		return "orders/ordersListComponent";
+	}
+	
+	/** 주문을 처리 */
+	@PostMapping("/orders/result")
 	public String orderProcess(Orders order, Model model, @SessionAttribute long memberNo) throws SQLException{
 		Member member = memberService.selectByMemberNo(memberNo);
 
 		order.setMemberNo(member.getMemberNo());
-		log.info("order:{}",order);
-		
 		ordersService.insert(order);
-		
 		
 		model.addAttribute("name", member.getName());
 		model.addAttribute("order",order);
@@ -81,7 +80,7 @@ public class OrdersController {
 	
 	@GetMapping("/orders/result")
 	public String orderResultView() {
-		return "orders/result";
+		return "redirect:/orders/result";
 	}
 	
 	@GetMapping("/orders/list")
@@ -89,19 +88,12 @@ public class OrdersController {
 		return "orders/list";
 	}
 	
-	/** 날짜 범위 안의 주문 리스트 */
-	@GetMapping("/orders/{start}/{end}")
-	public String listByDate(@PathVariable("start") String start, @PathVariable("end") String end, 
-			@SessionAttribute long memberNo, Model model) {
-		//정확한 날짜 검색을 위해 시간을 붙임
-		end += " 23:59:59";
+	/** 주문항목 자세히 보기 화면 */
+	@GetMapping("/orders/listdetail")
+	public String detail(long ordersNo, Model model) {
+		Orders order = ordersService.selectByOrdersNo(ordersNo);
+		model.addAttribute("order",order);
 		
-		OrdersDate ordersDate = new OrdersDate(memberNo, start, end);
-		List<Orders> list = ordersService.selectByDate(ordersDate);
-		
-		model.addAttribute("list",list);
-		model.addAttribute("dir", uploadDir);
-		return "orders/ordersListComponent";
+		return "orders/listdetail";
 	}
-	
 }

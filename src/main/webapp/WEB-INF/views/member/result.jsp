@@ -9,8 +9,6 @@
 </head>
 <body class="style-10">
 
-
-
 	<div id="content-block">
 
 		<div class="content-center fixed-header-margin">
@@ -29,11 +27,14 @@
                             <h3>!WELCOME!</h3>
                             <br><br><br>
                             <p>${id}님 환영합니다.<p>
-                            <p>저희 사이트에 가입해주셔서 진심으로 감사드립니다.</p>
-                            <p>행복한 하루되세요 :)</p>
+                            <p>저희 사이트에 가입해주셔서 진심으로 감사드립니다<br>
+										                     서비스를 즐기실 준비가 되셨나요? <br>
+															그렇다면 로그인 해주세요 :)</p>
+					
+														<a href="/member/login" class="button style-12">LOGIN</a>
                         </div>
                     </div>
-                </div>
+               	 </div>
                 <div class="col-sm-3 information-entry">
             	</div>
             </div><%-- ./row --%>

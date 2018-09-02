@@ -1,5 +1,9 @@
+<%-- 주문 이력의 상세 항목 --%>
+
 <%@ page contentType="text/html; charset=utf-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,15 +24,17 @@
 					<table class="cart-table">
 						<tbody>
 							<tr>
+								<th class="column-1">Order Number</th>
 								<th class="column-1">Product Name</th>
 								<th class="column-2">Unit Price</th>
 								<th class="column-3">Qty</th>
 								<th class="column-4">Subtotal</th>
-								<th class="column-5">Status</th>
+								<th class="column-4">Status</th>
 							</tr>
 							
 			<c:forEach items="${list}" var="item">
 							<tr>
+								<td><a href="/orders/listdetail?ordersNo=${item.ordersNo}">${item.ordersNo}</a></td>
 								<td>
 									<div class="traditional-cart-entry">
 										<a href="/product/gpurchase/'+item.gpurchaseNo+'" class="image">
@@ -37,18 +43,22 @@
 										<div class="content">
 											<div class="cell-view">
 												<a class="tag">Toy</a>
-												<a href="#" class="title">${item.product.name}</a>
+												<a href="/products?productNo=${item.product.productNo}" class="title">${item.product.name}</a>
 											</div>
                 		</div><%-- /.content --%>
               		</div><%-- /.traditional-cart-entry --%>
            			</td>
-								<td>${item.product.price} 원</td>	
+								<td>￦<fmt:formatNumber value="${item.product.price}" groupingUsed="true" /></td>	
 								<td>
             			<div class="quantity-selector detail-info-entry">
 	             		 <div class="entry number">${item.qty}</div>
               		</div>
             		</td>
-            		<td><div class="subtotal">${item.qty*item.product.price} 원</div></td>
+            		<td>
+            			<div class="subtotal">
+            				￦<fmt:formatNumber value="${item.qty*item.product.price}" groupingUsed="true" />
+            		 	</div>
+            		 </td>
             		<td>${item.deliverStatus}</td>
 							</tr>
 			</c:forEach>

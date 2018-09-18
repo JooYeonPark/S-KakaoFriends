@@ -60,27 +60,27 @@
 		
 		<sql id="selectOrdersProduct">
 			SELECT	orders_no
-							, member_no
-							, ORDERS.product_no
-							, date
-							, total_price
-							, qty
-							, address
-							, postcode
-							, receiver
-							, phone
-							, message
-							, deliver_status
-							, payment
-							, PRODUCT.name
-							, PRODUCT.price
-							, PRODUCT.main_image
+				, member_no
+				, ORDERS.product_no
+				, date
+				, total_price
+				, qty
+				, address
+				, postcode
+				, receiver
+				, phone
+				, message
+				, deliver_status
+				, payment
+				, PRODUCT.name
+				, PRODUCT.price
+				, PRODUCT.main_image
 		</sql>
 		
 		<select id="selectByDate" resultMap="ordersProduct">
 			<include refid="selectOrdersProduct"/>
 			FROM	ORDERS
-						INNER JOIN PRODUCT ON ORDERS.product_no = PRODUCT.product_no 
+				INNER JOIN PRODUCT ON ORDERS.product_no = PRODUCT.product_no 
 			WHERE	member_no = #{memberNo} AND
 						DATE(date) BETWEEN #{start} AND #{end}
 			ORDER BY date DESC
@@ -90,7 +90,7 @@
 		<select id="selectByOrdersNo" resultMap="ordersProduct">
 			<include refid="selectOrdersProduct"/>
 			FROM	ORDERS
-						INNER JOIN PRODUCT ON ORDERS.product_no = PRODUCT.product_no 
+				INNER JOIN PRODUCT ON ORDERS.product_no = PRODUCT.product_no 
 			WHERE	orders_no = #{ordersNo}
 		</select>
 		

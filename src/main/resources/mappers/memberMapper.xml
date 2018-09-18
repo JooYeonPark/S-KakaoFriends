@@ -6,61 +6,56 @@
 	<mapper namespace="com.kakaoix.mall.member.MemberMapper">
 	
 	<insert id="insert" useGeneratedKeys="true" keyProperty="memberNo">
-			INSERT INTO MEMBER
-			(
-					id
-				, password
-				, name
-				, email
-				, address
-				, postcode
-				, phone
+		INSERT INTO MEMBER
+		(
+			id
+			, password
+			, name
+			, email
+			, address
+			, postcode
+			, phone
+		)
+		VALUES
+		(
+			#{id}
+			, #{password}
+			, #{name}
+			, #{email}
+			, #{address}
+			, #{postcode}
+			, #{phone}
 			)
-			VALUES
-			(
-						#{id}
-					, #{password}
-					, #{name}
-					, #{email}
-					, #{address}
-					, #{postcode}
-					, #{phone}
-			)
-		</insert>
+	</insert>
 		
-		<sql id="selectMemberAll">
-			SELECT	member_no
-						, id
-						, password
-						, name
-						, email
-						, address
-						, postcode
-						, phone
-		</sql>
+	<sql id="selectMemberAll">
+		SELECT	member_no
+			, id
+			, password
+			, name
+			, email
+			, address
+			, postcode
+			, phone
+	</sql>
 		
-		<select id="isMember" resultType="Member">
-			<include refid="selectMemberAll"/>
-			FROM	MEMBER
-			WHERE	id = #{id}
-						AND password = #{password}
-		</select>
+	<select id="isMember" resultType="Member">
+		<include refid="selectMemberAll"/>
+		FROM	MEMBER
+		WHERE	id = #{id}
+				AND password = #{password}
+	</select>
 		
-		<select id="selectById" resultType="Member">
-			<include refid="selectMemberAll"/>
-			FROM	MEMBER
-			WHERE	id = #{id}
-		</select>
+	<select id="selectById" resultType="Member">
+		<include refid="selectMemberAll"/>
+		FROM	MEMBER
+		WHERE	id = #{id}
+	</select>
 	
-		<select id="selectAll" resultType="Member">
-			<include refid="selectMemberAll"/>
-			FROM	MEMBER	
-		</select>
-	
-		<select id="selectByMemberNo" resultType="Member">
-			<include refid="selectMemberAll"/>
-			FROM	MEMBER
-			WHERE	member_no = #{memberNo}
+	<select id="selectByMemberNo" resultType="Member">
+		<include refid="selectMemberAll"/>
+		FROM	MEMBER
+		WHERE	member_no = #{memberNo}
 		</select>
 	</mapper>
 	

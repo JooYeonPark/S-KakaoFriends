@@ -2,13 +2,6 @@ package com.kakaoix.mall.util;
 
 import java.security.MessageDigest;
 
-/**
- *
- * @author Park Joo Yeon
- * @since 2018. 6. 18.
- * @see SHA256을 이용하여 단방향 암호화
- * 
- */
 public class SHA256Util {
 	
 	public static String hashing(String password) throws Exception {

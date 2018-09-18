@@ -6,7 +6,7 @@ public class SHA256Util {
 	
 	public static String hashing(String password) throws Exception {
 		
-		MessageDigest digest = MessageDigest.getInstance("SHA-256");
+	MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(password.getBytes("UTF-8"));
         StringBuffer hexString = new StringBuffer();
 

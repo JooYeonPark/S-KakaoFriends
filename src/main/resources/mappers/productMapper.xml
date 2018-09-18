@@ -6,10 +6,10 @@
 	<mapper namespace="com.kakaoix.mall.products.ProductMapper">
 		<sql id="selectAll">
 			SELECT	product_no
-							, name
-							, price
-							, description
-							, main_image
+				, name
+				, price
+				, description
+				, main_image
 		</sql>
 		
 		<select id="selectByPage" resultType="Product">
@@ -39,8 +39,8 @@
 		
 		<select id="selectImageByProductNo" resultType="Image">
 			SELECT	image_no
-							, product_no
-							, path
+				, product_no
+				, path
 			FROM IMAGE
 			WHERE product_no = #{productNo}
 		</select>
